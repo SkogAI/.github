@@ -39,7 +39,7 @@ jobs:
       (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
       (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
 
-    uses: SkogAI/.github/.github/workflows/claude-workflow-manager.yml@main
+    uses: SkogAI/.github/.github/workflows/claude-workflow-manager.yml@master
     secrets:
       CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -120,7 +120,7 @@ You can customize behavior by modifying the reusable workflow or creating repo-s
 ```yaml
 jobs:
   call-claude:
-    uses: SkogAI/.github/.github/workflows/claude-workflow-manager.yml@main
+    uses: SkogAI/.github/.github/workflows/claude-workflow-manager.yml@master
     with:
       custom_prompt: |
         Additional context for this repo:
