@@ -71,7 +71,7 @@ jobs:
     uses: SkogAI/.github/.github/workflows/claude-workflow-manager.yml@master
     secrets:
       CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
 EOF
 
 # The workflow already references SkogAI/.github - no changes needed!
@@ -132,7 +132,7 @@ jobs:
     uses: $ORG/.github/.github/workflows/claude-workflow-manager.yml@master
     secrets:
       CLAUDE_CODE_OAUTH_TOKEN: \${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-      GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: \${{ secrets.GH_TOKEN }}
 EOF
 
   # Commit and push

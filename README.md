@@ -47,7 +47,7 @@ jobs:
     uses: SkogAI/.github/.github/workflows/claude-workflow-manager.yml@master
     secrets:
       CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
 
 Then just mention `@claude` in any issue or PR!

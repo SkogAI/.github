@@ -42,7 +42,7 @@ jobs:
     uses: SkogAI/.github/.github/workflows/claude-workflow-manager.yml@master
     secrets:
       CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
 
 2. The workflow path is already set to `SkogAI/.github`
@@ -129,7 +129,7 @@ jobs:
         - Follow PEP 8 style guide
     secrets:
       CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
 
 ### Troubleshooting
