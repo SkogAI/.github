@@ -12,8 +12,6 @@ This is a special repo that GitHub recognizes for org-level configurations.
 # This directory is already structured correctly!
 # Just initialize it as a git repo and push to GitHub
 
-cd /home/skogix/dev/skogai-workflows
-
 # Initialize git (if not already)
 git init
 
@@ -26,8 +24,8 @@ git commit -m "Initial commit: Org-level workflows"
 # Create the .github repo in your org and push
 gh repo create SkogAI/.github --public --description "SkogAI org-level GitHub configurations"
 git remote add origin https://github.com/SkogAI/.github.git
-git branch -M main
-git push -u origin main
+git branch -M master
+git push -u origin master
 ```
 
 ### Step 2: Configure org-level secret

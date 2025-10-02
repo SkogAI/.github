@@ -59,18 +59,9 @@ Then just mention `@claude` in any issue or PR!
 ├── .github/
 │   └── workflows/
 │       └── claude-workflow-manager.yml    # Reusable workflow for Claude
-├── workflows/                             # Example workflows (reference)
-│   ├── claude-code.yml
-│   ├── doc-updater.yml
-│   ├── lore-growth.yml
-│   └── ...
-├── skoglib-workflows/                     # Python package workflows
-│   ├── ci.yml
-│   ├── security.yml
-│   ├── release.yml
-│   └── ...
-├── org-workflows/                         # Additional org templates
-│   └── claude-caller.yml                  # Template for repos
+├── templates/                             # Workflow templates for repos
+│   ├── README.md                          # Template documentation
+│   └── claude-caller.yml                  # Template for repos to use
 ├── CLAUDE_WORKFLOW_README.md              # Claude workflow documentation
 ├── DEPLOYMENT.md                          # Setup instructions
 ├── EXAMPLES.md                            # Usage examples
