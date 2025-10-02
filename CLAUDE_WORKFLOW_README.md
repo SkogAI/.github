@@ -53,7 +53,7 @@ jobs:
 
 #### Option 2: Direct Copy (Simpler but less maintainable)
 
-Just copy `claude-caller.yml` to each repo's `.github/workflows/` directory. Updates need to be applied to each repo individually.
+Copy the template from `templates/claude-caller.yml` to each repo's `.github/workflows/claude.yml` directory. Updates need to be applied to each repo individually.
 
 ### Usage Examples
 
