@@ -27,6 +27,6 @@ jobs:
         uses: github/copilot-beta-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          
+
           additional_permissions: |
             actions: read
