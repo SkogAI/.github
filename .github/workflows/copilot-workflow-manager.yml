@@ -1,0 +1,32 @@
+name: Copilot Workflow Manager (Reusable)
+
+on:
+  workflow_call:
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+
+jobs:
+  copilot-workflow:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run GitHub Copilot
+        id: copilot
+        uses: github/copilot-beta-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+          additional_permissions: |
+            actions: read
