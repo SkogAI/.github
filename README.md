@@ -52,17 +52,64 @@ jobs:
 
 Then just mention `@claude` in any issue or PR!
 
+### Copilot Workflow Manager
+
+An AI-powered workflow assistant that helps with:
+- **Issue creation and management** - Create well-structured issues with acceptance criteria
+- **Workflow orchestration** - Track dependencies, blockers, and project flow
+- **Sprint planning** - Break down large tasks, manage sprints
+- **Bug triage** - Systematically handle bug reports
+
+**📚 Documentation:**
+- [Usage Guide](COPILOT_WORKFLOW_README.md) - How to use the Copilot workflow
+- [Deployment Guide](DEPLOYMENT.md) - How to set this up
+
+**🚀 Quick Start:**
+
+Add this to any repo's `.github/workflows/copilot.yml`:
+
+```yaml
+name: Copilot Workflow Assistant
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened, assigned]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  call-copilot:
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@copilot')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@copilot')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@copilot')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@copilot') || contains(github.event.issue.title, '@copilot')))
+
+    uses: SkogAI/.github/.github/workflows/copilot-workflow-manager.yml@master
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+Then just mention `@copilot` in any issue or PR!
+
 ## 📁 Repository Structure
 
 ```
 .
 ├── .github/
 │   └── workflows/
-│       └── claude-workflow-manager.yml    # Reusable workflow for Claude
+│       ├── claude-workflow-manager.yml    # Reusable workflow for Claude
+│       └── copilot-workflow-manager.yml   # Reusable workflow for Copilot
 ├── templates/                             # Workflow templates for repos
 │   ├── README.md                          # Template documentation
-│   └── claude-caller.yml                  # Template for repos to use
+│   ├── claude-caller.yml                  # Template for repos to use
+│   └── copilot-caller.yml                 # Template for repos to use
 ├── CLAUDE_WORKFLOW_README.md              # Claude workflow documentation
+├── COPILOT_WORKFLOW_README.md             # Copilot workflow documentation
 ├── DEPLOYMENT.md                          # Setup instructions
 ├── EXAMPLES.md                            # Usage examples
 └── README.md                              # This file
@@ -72,6 +119,7 @@ Then just mention `@claude` in any issue or PR!
 
 Set these at the organization level:
 - `CLAUDE_CODE_OAUTH_TOKEN` - For Claude Code integration
+- `GITHUB_TOKEN` - Automatically provided by GitHub Actions for Copilot integration
 
 ## 📖 Resources
 

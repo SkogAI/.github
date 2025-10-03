@@ -16,3 +16,18 @@ git push
 ```
 
 Then mention `@claude` in any issue or PR to get help!
+
+## copilot-caller.yml
+
+Copy this file to any repo's `.github/workflows/copilot.yml` to enable Copilot workflow assistance.
+
+**Usage:**
+```bash
+# In your target repository
+cp templates/copilot-caller.yml .github/workflows/copilot.yml
+git add .github/workflows/copilot.yml
+git commit -m "Add Copilot workflow assistant"
+git push
+```
+
+Then mention `@copilot` in any issue or PR to get help!
