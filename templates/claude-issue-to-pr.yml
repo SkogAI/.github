@@ -1,0 +1,36 @@
+name: Claude Issue to PR
+
+# This workflow triggers when an issue is posted
+# Claude analyzes the issue, makes changes, and creates a PR
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  call-claude:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Add claude label and trigger workflow
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Add the claude label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['claude']
+            });
+
+            // Add initial comment to trigger Claude
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '@claude Please analyze this issue and create a PR with the necessary changes.'
+            });
