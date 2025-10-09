@@ -1,0 +1,38 @@
+name: Test - PR Sync Check
+
+on:
+  pull_request:
+    types: [synchronize]
+
+jobs:
+  check-pr-status:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+      actions: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Report on the status of this PR and any non-mergeable PRs or branches:
+
+            1. Check if this PR is mergeable
+            2. Identify any merge conflicts
+            3. List all open PRs in the repository and their merge status
+            4. Report on any stale branches that can't be merged
+            5. Suggest actions to resolve merge issues
+
+            Post your findings as a comment on this PR.
