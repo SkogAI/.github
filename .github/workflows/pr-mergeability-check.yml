@@ -1,0 +1,89 @@
+name: PR Mergeability Check
+
+# This workflow triggers on master branch changes
+# Checks all PRs and branches to see if they are mergeable
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  check-mergeability:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check all PRs and branches
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get all open PRs
+            const { data: pullRequests } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
+
+            console.log(`Found ${pullRequests.length} open pull requests`);
+
+            // Check mergeability of each PR
+            for (const pr of pullRequests) {
+              const { data: prDetails } = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number
+              });
+
+              const mergeable = prDetails.mergeable;
+              const mergeableState = prDetails.mergeable_state;
+
+              console.log(`PR #${pr.number}: ${pr.title}`);
+              console.log(`  Branch: ${pr.head.ref}`);
+              console.log(`  Mergeable: ${mergeable}`);
+              console.log(`  Mergeable State: ${mergeableState}`);
+
+              // Add comment if not mergeable
+              if (mergeable === false) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: pr.number,
+                  body: `⚠️ This PR is not mergeable due to conflicts with the master branch. Please resolve conflicts.`
+                });
+              }
+            }
+
+            // Get all branches
+            const { data: branches } = await github.rest.repos.listBranches({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            console.log(`\nFound ${branches.length} branches`);
+
+            // Check if each branch can be merged to master
+            for (const branch of branches) {
+              if (branch.name === 'master') continue;
+
+              console.log(`Branch: ${branch.name}`);
+
+              // Try to get merge status
+              try {
+                const { data: comparison } = await github.rest.repos.compareCommits({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  base: 'master',
+                  head: branch.name
+                });
+
+                console.log(`  Status: ${comparison.status}`);
+                console.log(`  Ahead by: ${comparison.ahead_by} commits`);
+                console.log(`  Behind by: ${comparison.behind_by} commits`);
+              } catch (error) {
+                console.log(`  Error checking branch: ${error.message}`);
+              }
+            }

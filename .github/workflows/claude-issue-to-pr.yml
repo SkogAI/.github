@@ -1,0 +1,15 @@
+name: Claude Issue to PR
+
+# This workflow triggers when an issue is posted
+# Claude analyzes the issue, makes changes, and creates a PR
+# Claude will have access to the issue context via GitHub API
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  call-claude:
+    uses: SkogAI/.github/.github/workflows/claude-workflow-manager.yml@master
+    secrets:
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
