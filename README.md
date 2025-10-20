@@ -1,141 +1,48 @@
-# SkogAI Organization Configurations
+---
+name: skogai/.github
+description: Organization-level GitHub configurations and reusable workflows.
+---
 
-This is the special `.github` repository for the SkogAI organization. It contains:
+# SkogAI/.github
 
-## 🤖 Reusable Workflows
+Organization-level GitHub configurations and reusable workflows.
 
-Org-level GitHub Actions workflows that can be used across all repositories.
+## Claude Code Workflow
 
-### Claude Workflow Manager
+Add these two lines to any workflow:
 
-An AI-powered workflow assistant that helps with:
-- **Issue creation and management** - Create well-structured issues with acceptance criteria
-- **Workflow orchestration** - Track dependencies, blockers, and project flow
-- **Sprint planning** - Break down large tasks, manage sprints
-- **Bug triage** - Systematically handle bug reports
+```yaml
+uses: SkogAI/.github/.github/workflows/claude-workflow-manager.yml@master
+secrets:
+  CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+```
 
-**📚 Documentation:**
-- [Usage Guide](CLAUDE_WORKFLOW_README.md) - How to use the Claude workflow
-- [Deployment Guide](DEPLOYMENT.md) - How to set this up
-- [Examples](EXAMPLES.md) - Real-world usage examples
-
-**🚀 Quick Start:**
-
-Add this to any repo's `.github/workflows/claude.yml`:
+Example workflow that triggers on `@claude` mentions:
 
 ```yaml
 name: Claude Workflow Assistant
 
-on:
-  issue_comment:
-    types: [created]
-  pull_request_review_comment:
-    types: [created]
-  issues:
-    types: [opened, assigned]
-  pull_request_review:
-    types: [submitted]
+on: [issue_comment, pull_request_review_comment]
 
 jobs:
   call-claude:
-    if: |
-      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
-      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
-      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
-      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
-
+    if: contains(github.event.comment.body, '@claude')
     uses: SkogAI/.github/.github/workflows/claude-workflow-manager.yml@master
     secrets:
       CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
 
-Then just mention `@claude` in any issue or PR!
+See [GitHub Actions documentation](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows) for event triggers and conditions.
 
-### Copilot Workflow Manager
+## Required Secrets
 
-An AI-powered workflow assistant that helps with:
-- **Issue creation and management** - Create well-structured issues with acceptance criteria
-- **Workflow orchestration** - Track dependencies, blockers, and project flow
-- **Sprint planning** - Break down large tasks, manage sprints
-- **Bug triage** - Systematically handle bug reports
+Set at organization level:
 
-**📚 Documentation:**
-- [Usage Guide](COPILOT_WORKFLOW_README.md) - How to use the Copilot workflow
-- [Deployment Guide](DEPLOYMENT.md) - How to set this up
+- `CLAUDE_CODE_OAUTH_TOKEN` - Claude Code OAuth token
 
-**🚀 Quick Start:**
+Run `./setup-claude-secrets.sh` to configure.
 
-Add this to any repo's `.github/workflows/copilot.yml`:
+## Resources
 
-```yaml
-name: Copilot Workflow Assistant
-
-on:
-  issue_comment:
-    types: [created]
-  pull_request_review_comment:
-    types: [created]
-  issues:
-    types: [opened, assigned]
-  pull_request_review:
-    types: [submitted]
-
-jobs:
-  call-copilot:
-    if: |
-      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@copilot')) ||
-      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@copilot')) ||
-      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@copilot')) ||
-      (github.event_name == 'issues' && (contains(github.event.issue.body, '@copilot') || contains(github.event.issue.title, '@copilot')))
-
-    uses: SkogAI/.github/.github/workflows/copilot-workflow-manager.yml@master
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
-
-Then just mention `@copilot` in any issue or PR!
-
-## 📁 Repository Structure
-
-```
-.
-├── .github/
-│   └── workflows/
-│       ├── claude-workflow-manager.yml    # Reusable workflow for Claude
-│       └── copilot-workflow-manager.yml   # Reusable workflow for Copilot
-├── templates/                             # Workflow templates for repos
-│   ├── README.md                          # Template documentation
-│   ├── claude-caller.yml                  # Template for repos to use
-│   └── copilot-caller.yml                 # Template for repos to use
-├── CLAUDE_WORKFLOW_README.md              # Claude workflow documentation
-├── COPILOT_WORKFLOW_README.md             # Copilot workflow documentation
-├── DEPLOYMENT.md                          # Setup instructions
-├── EXAMPLES.md                            # Usage examples
-└── README.md                              # This file
-```
-
-## 🔐 Required Secrets
-
-Set these at the organization level:
-- `CLAUDE_CODE_OAUTH_TOKEN` - For Claude Code integration
-- `GITHUB_TOKEN` - Automatically provided by GitHub Actions for Copilot integration
-
-## 📖 Resources
-
-- [GitHub Reusable Workflows Documentation](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
+- [Reusable Workflows Documentation](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
 - [Special .github Repository](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/customizing-your-organizations-profile)
-
-## 🤝 Contributing
-
-To update org-level workflows:
-1. Make changes to workflows in `.github/workflows/`
-2. Test in a sandbox repo
-3. Create a PR to this repo
-4. Once merged, all repos using the workflow automatically get the update!
-
----
-
-*Automating everything so we can drink mojitos on the beach* 🏖️
-# Different Conflict
-# Test Conflict
