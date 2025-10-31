@@ -105,7 +105,8 @@ read -p "Do you want to create a test issue to trigger workflows? (y/n): " RUN_T
 if [[ "$RUN_TEST" =~ ^[Yy]$ ]]; then
     # Check if jq is available
     if ! command -v jq &> /dev/null; then
-        echo "❌ jq is required but not installed. Install with: sudo apt-get install jq"
+        echo "❌ jq is required but not installed."
+        echo "   Install: brew install jq (macOS) or sudo apt-get install jq (Ubuntu/Debian)"
         echo "   Alternatively, skip this test."
         exit 1
     fi
@@ -118,7 +119,7 @@ if [[ "$RUN_TEST" =~ ^[Yy]$ ]]; then
 
     if [ -n "$ISSUE_URL" ]; then
         # Get structured JSON data from the created issue (JSON-first principle)
-        ISSUE_DATA=$(gh issue view "$ISSUE_URL" --json number,url 2>/dev/null)
+        ISSUE_DATA=$(gh issue view "$ISSUE_URL" --json number 2>/dev/null)
         ISSUE_NUM=$(echo "$ISSUE_DATA" | jq -r '.number' 2>/dev/null)
         
         if [ -z "$ISSUE_NUM" ] || [ "$ISSUE_NUM" = "null" ]; then
