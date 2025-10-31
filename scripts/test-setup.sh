@@ -110,12 +110,15 @@ if [[ "$RUN_TEST" =~ ^[Yy]$ ]]; then
         2>/dev/null)
 
     if [ -n "$ISSUE_URL" ]; then
+        # Get structured JSON data from the created issue (JSON-first principle)
+        ISSUE_DATA=$(gh issue view "$ISSUE_URL" --json number,url 2>/dev/null)
+        ISSUE_NUM=$(echo "$ISSUE_DATA" | jq -r '.number')
+        
         echo "✅ Test issue created: $ISSUE_URL"
         echo "   The workflow should trigger automatically."
         echo "   Check workflow runs: gh run list --limit 5"
         echo ""
         echo "   To clean up after testing:"
-        ISSUE_NUM=$(echo "$ISSUE_URL" | grep -oP '\d+$')
         echo "   gh issue close $ISSUE_NUM"
     else
         echo "❌ Could not create test issue"
