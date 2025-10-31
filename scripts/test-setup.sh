@@ -44,7 +44,8 @@ echo ""
 # Test 3: Check if CLAUDE_CODE_OAUTH_TOKEN exists
 echo "Test 3: Organization Secret Exists"
 echo "-----------------------------------"
-if gh secret list --org "$ORG" 2>/dev/null | grep -q "CLAUDE_CODE_OAUTH_TOKEN"; then
+SECRET_EXISTS=$(gh secret list --org "$ORG" --json name --jq 'any(.name == "CLAUDE_CODE_OAUTH_TOKEN")' 2>/dev/null)
+if [ "$SECRET_EXISTS" = "true" ]; then
     echo "✅ CLAUDE_CODE_OAUTH_TOKEN is set"
 else
     echo "❌ CLAUDE_CODE_OAUTH_TOKEN not found"
