@@ -63,9 +63,7 @@ echo "✅ Admin access confirmed"
 echo ""
 
 # Check for existing secrets
-EXISTING_SECRETS=$(gh secret list --org "$ORG" --json name -q '.[].name' 2>/dev/null || echo "")
-
-if echo "$EXISTING_SECRETS" | grep -q "CLAUDE_CODE_OAUTH_TOKEN"; then
+if gh secret list --org "$ORG" --json name --jq 'any(.name == "CLAUDE_CODE_OAUTH_TOKEN")' 2>/dev/null; then
     echo "⚠️  CLAUDE_CODE_OAUTH_TOKEN already exists"
     read -p "Do you want to update it? (y/n): " UPDATE_TOKEN
     if [[ ! "$UPDATE_TOKEN" =~ ^[Yy]$ ]]; then
