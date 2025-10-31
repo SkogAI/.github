@@ -90,7 +90,7 @@ echo ""
 echo "✅ Secret configured successfully!"
 echo ""
 echo "Verifying setup..."
-gh secret list --org "$ORG" | grep CLAUDE || true
+gh secret list --org "$ORG" --json name --jq '.[] | select(.name | contains("CLAUDE")) | .name'
 
 echo ""
 echo "🚀 Ready to use Claude workflows!"
