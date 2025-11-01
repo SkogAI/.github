@@ -104,6 +104,14 @@ echo "Test 7: Create Test Issue (triggers @claude workflow)"
 echo "------------------------------------------------------"
 read -p "Do you want to create a test issue to trigger workflows? (y/n): " RUN_TEST
 if [[ "$RUN_TEST" =~ ^[Yy]$ ]]; then
+    # Check if jq is available
+    if ! command -v jq &> /dev/null; then
+        echo "❌ jq is required but not installed."
+        echo "   Install: brew install jq (macOS) or sudo apt-get install jq (Ubuntu/Debian)"
+        echo "   Alternatively, skip this test."
+        exit 1
+    fi
+    
     echo "Creating test issue with @claude mention..."
     ISSUE_URL=$(gh issue create \
         --title "Test: Claude Code Workflow" \
@@ -111,13 +119,23 @@ if [[ "$RUN_TEST" =~ ^[Yy]$ ]]; then
         2>/dev/null)
 
     if [ -n "$ISSUE_URL" ]; then
-        echo "✅ Test issue created: $ISSUE_URL"
-        echo "   The workflow should trigger automatically."
-        echo "   Check workflow runs: gh run list --limit 5"
-        echo ""
-        echo "   To clean up after testing:"
-        ISSUE_NUM=$(echo "$ISSUE_URL" | grep -oP '\d+$')
-        echo "   gh issue close $ISSUE_NUM"
+        # Get structured JSON data from the created issue (JSON-first principle)
+        ISSUE_DATA=$(gh issue view "$ISSUE_URL" --json number 2>/dev/null)
+        ISSUE_NUM=$(echo "$ISSUE_DATA" | jq -r '.number' 2>/dev/null)
+        
+        if [ -z "$ISSUE_NUM" ] || [ "$ISSUE_NUM" = "null" ]; then
+            echo "⚠️  Test issue created: $ISSUE_URL"
+            echo "   However, could not extract issue number for cleanup command."
+            echo "   The workflow should trigger automatically."
+            echo "   Check workflow runs: gh run list --limit 5"
+        else
+            echo "✅ Test issue created: $ISSUE_URL"
+            echo "   The workflow should trigger automatically."
+            echo "   Check workflow runs: gh run list --limit 5"
+            echo ""
+            echo "   To clean up after testing:"
+            echo "   gh issue close $ISSUE_NUM"
+        fi
     else
         echo "❌ Could not create test issue"
     fi
