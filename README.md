@@ -1,9 +1,3 @@
----
-title: README
-type: note
-permalink: claude/lab/skogai-dot-github/readme
----
-
 # SkogAI/.github
 
 **Context for LLMs:** This is a special GitHub repository. Repositories named `.github` at the organization level provide default configurations, templates, and reusable components that apply across all repositories in the organization.

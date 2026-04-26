@@ -1,9 +1,3 @@
----
-title: INSTALL
-type: note
-permalink: claude/lab/skogai-dot-github/install
----
-
 # Installing Claude Code Workflows
 
 Quick guide for adding Claude Code automation to SkogAI repositories.
