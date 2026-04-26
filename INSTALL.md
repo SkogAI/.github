@@ -1,199 +1,74 @@
 # Installing Claude Code Workflows
 
-Quick guide for adding Claude Code automation to skogai repositories.
-
 ## Prerequisites
 
-1. **Organization secret configured:**
-
-   ```bash
-   gh secret list --org skogai | grep CLAUDE_CODE_OAUTH_TOKEN
-   ```
-
-   If not set, run `./scripts/setup-claude-secrets.sh`
-
-1. **GitHub CLI authenticated:**
-
-   ```bash
-   gh auth status
-   ```
-
-## Option 1: Manual Install (Single Repo)
-
-### Quick Start - @claude Mentions
+Verify `CLAUDE_CODE_OAUTH_TOKEN` is set as an org-level secret:
 
 ```bash
-# Navigate to your repo
-cd /path/to/your/repo
-
-# Create workflows directory if needed
-mkdir -p .github/workflows
-
-# Copy the template
-curl -o .github/workflows/claude.yml \
-  https://raw.githubusercontent.com/skogai/.github/master/workflow-templates/claude-on-mention.yml
-
-# Commit and push
-git add .github/workflows/claude.yml
-git commit -m "feat: Add Claude Code workflow for @claude mentions"
-git push
+gh secret list --org skogai | grep CLAUDE_CODE_OAUTH_TOKEN
 ```
 
-### Full Install - All Templates
+## Option 1: GitHub Actions UI
+
+1. Go to your repository → **Actions** → **New workflow**
+2. Look for the **skogai** section
+3. Choose a Claude Code template and commit
+
+> UI discovery of org templates can take a few minutes after the template is pushed.
+
+## Option 2: Manual install
 
 ```bash
-# Navigate to your repo
-cd /path/to/your/repo
-
-# Create workflows directory
 mkdir -p .github/workflows
 
-# Copy all templates
+# @claude mentions (most common)
 curl -o .github/workflows/claude.yml \
-  https://raw.githubusercontent.com/skogai/.github/master/workflow-templates/claude-on-mention.yml
+  https://raw.githubusercontent.com/skogai/.github/main/workflow-templates/claude-on-mention.yml
 
+# Auto PR review
 curl -o .github/workflows/claude-pr-review.yml \
-  https://raw.githubusercontent.com/skogai/.github/master/workflow-templates/claude-pr-review.yml
+  https://raw.githubusercontent.com/skogai/.github/main/workflow-templates/claude-pr-review.yml
 
+# Manual dispatch
 curl -o .github/workflows/claude-manual.yml \
-  https://raw.githubusercontent.com/skogai/.github/master/workflow-templates/claude-manual.yml
+  https://raw.githubusercontent.com/skogai/.github/main/workflow-templates/claude-manual.yml
 
-# Commit and push
 git add .github/workflows/claude*.yml
-git commit -m "feat: Add Claude Code workflows"
+git commit -m "feat: add Claude Code workflows"
 git push
 ```
 
-## Option 2: Automated Install (Multiple Repos)
-
-Use the bulk installer script:
+## Verifying
 
 ```bash
-# Clone this repo if you haven't
-git clone git@github.com:skogai/.github.git
-cd .github
-
-# See all skogai repos and their Claude workflow status
-./scripts/bulk-install.sh --list
-
-# Install @claude mention workflow to all repos
-./scripts/bulk-install.sh --template mention --all
-
-# Install to specific repos
-./scripts/bulk-install.sh --template mention --repos "skogix,dotfiles,ansible"
-
-# Install all templates to specific repos
-./scripts/bulk-install.sh --template all --repos "skogix"
-
-# Dry run (preview changes without committing)
-./scripts/bulk-install.sh --template mention --all --dry-run
-```
-
-## Option 3: Via GitHub UI
-
-1. Go to your repository on GitHub
-1. Click **Actions** tab
-1. Click **New workflow**
-1. Look for **skogai** section (may take a few minutes after templates are pushed)
-1. Choose a Claude Code template
-1. Commit the workflow file
-
-**Note:** GitHub's UI discovery of org templates can be delayed. Manual/automated install is faster.
-
-## Verifying Installation
-
-After installing, verify the workflow is active:
-
-```bash
-# In your repo
 gh workflow list | grep -i claude
 ```
 
-You should see workflows like:
+## Customizing
 
-- `Claude Code` (from claude-on-mention.yml)
-- `Claude Code Review` (from claude-pr-review.yml)
-- `Claude Code - Manual Trigger` (from claude-manual.yml)
-
-## Testing
-
-Create a test issue and mention `@claude`:
-
-```bash
-gh issue create --title "Test Claude" --body "@claude Please confirm you're working"
-```
-
-Check workflow runs:
-
-```bash
-gh run list --limit 5
-```
-
-## Customizing Workflows
-
-### Restrict to Specific File Types
-
-Edit `.github/workflows/claude-pr-review.yml`:
+### Limit to specific paths
 
 ```yaml
 on:
   pull_request:
     types: [opened, synchronize]
     paths:
-      - "src/**/*.ts"
       - "src/**/*.py"
 ```
 
-### Restrict Tools
-
-Edit any workflow to add `claude_args`:
+### Restrict allowed tools
 
 ```yaml
 - uses: anthropics/claude-code-action@v1
   with:
     claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-    github_token: ${{ secrets.GITHUB_TOKEN }}
     claude_args: '--allowed-tools "Bash(gh pr:*),Read,Grep"'
 ```
 
-See [Claude Code CLI Reference](https://docs.claude.com/en/docs/claude-code/cli-reference) for all options.
-
 ## Troubleshooting
 
-### Workflow doesn't trigger
-
-1. Check workflow syntax: `gh workflow list`
-1. Verify secret exists: `gh secret list --org skogai | grep CLAUDE`
-1. Check workflow file has correct permissions (see templates)
-
-### Claude doesn't respond
-
-1. Check workflow run logs: `gh run list`, then `gh run view <run-id>`
-1. Verify `CLAUDE_CODE_OAUTH_TOKEN` is valid
-1. Check if `@claude` mention is in comment body
-
-### Permission errors
-
-Ensure workflow has required permissions:
-
-```yaml
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
-  id-token: write
-  actions: read
-```
-
-## Updating Workflows
-
-When skogai/.github templates are updated, re-run the install:
-
-```bash
-# Manual update
-curl -o .github/workflows/claude.yml \
-  https://raw.githubusercontent.com/skogai/.github/master/workflow-templates/claude-on-mention.yml
-
-# Or use bulk installer
-./scripts/bulk-install.sh --template mention --repos "your-repo" --force
-```
+| Symptom | Check |
+|---|---|
+| `@claude` not responding | Workflow file exists? `CLAUDE_CODE_OAUTH_TOKEN` set at org level? |
+| Workflow not triggering | `gh workflow list` — is it active? Check permissions block. |
+| Permission errors | Workflow needs `contents: write`, `pull-requests: write`, `issues: write`, `id-token: write` |
