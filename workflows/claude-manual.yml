@@ -1,0 +1,61 @@
+name: Claude Code - Manual (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      prompt:
+        description: 'Prompt for Claude.'
+        required: true
+        type: string
+      issue_number:
+        description: 'Issue or PR number to provide as context. Use 0 for none.'
+        required: false
+        type: number
+        default: 0
+      claude_args:
+        description: 'Optional Claude Code CLI arguments (e.g. --allowed-tools, --max-turns).'
+        required: false
+        type: string
+        default: ''
+    secrets:
+      claude_code_oauth_token:
+        description: 'OAuth token for Claude Code.'
+        required: true
+
+jobs:
+  run-claude:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Build prompt with context
+        id: build
+        env:
+          USER_PROMPT: ${{ inputs.prompt }}
+          ISSUE_NUMBER: ${{ inputs.issue_number }}
+        run: |
+          {
+            echo 'prompt<<PROMPT_EOF'
+            if [ "${ISSUE_NUMBER}" != "0" ] && [ -n "${ISSUE_NUMBER}" ]; then
+              echo "Context: issue/PR #${ISSUE_NUMBER} in ${GITHUB_REPOSITORY}."
+              echo ""
+            fi
+            printf '%s\n' "${USER_PROMPT}"
+            echo 'PROMPT_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Run Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.claude_code_oauth_token }}
+          prompt: ${{ steps.build.outputs.prompt }}
+          claude_args: ${{ inputs.claude_args }}
