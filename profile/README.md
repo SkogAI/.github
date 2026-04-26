@@ -1,4 +1,4 @@
-# SkogAI
+# skogai
 
 AI-native development — tooling, automation, and system configuration built with [Claude Code](https://github.com/anthropics/claude-code-action).
 
@@ -12,8 +12,8 @@ AI-native development — tooling, automation, and system configuration built wi
 
 Mention `@claude` in any issue or PR comment and Claude will respond. All repositories in this org use [`anthropics/claude-code-action`](https://github.com/anthropics/claude-code-action) — pre-configured and ready from day one.
 
-Workflow templates and reusable workflows live in [skogai/.github](https://github.com/SkogAI/.github).
+Workflow templates and reusable workflows live in [skogai/.github](https://github.com/skogai/.github).
 
 ## Get Involved
 
-Browse the [repositories](https://github.com/orgs/SkogAI/repositories), open an issue, or mention `@claude` to explore.
+Browse the [repositories](https://github.com/orgs/skogai/repositories), open an issue, or mention `@claude` to explore.

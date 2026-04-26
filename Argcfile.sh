@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# @describe SkogAI/.github workflow manager
+# @describe skogai/.github workflow manager
 # @version 1.0.0
 #
-# Manage Claude Code workflow templates across SkogAI repositories
+# Manage Claude Code workflow templates across skogai repositories
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ORG="SkogAI"
+ORG="skogai"
 
 # @cmd List all repositories and their workflow status
 list() {
@@ -17,7 +17,7 @@ list() {
 # @cmd Install Claude Code workflows to repositories
 # @option --template[=mention|pr-review|manual|all] <TEMPLATE> Template to install
 # @option --repos <REPOS> Comma-separated list of repository names
-# @flag --all Install to all SkogAI repositories
+# @flag --all Install to all skogai repositories
 # @flag --dry-run Preview changes without committing
 # @flag --force Overwrite existing workflow files
 install() {

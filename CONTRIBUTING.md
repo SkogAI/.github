@@ -1,10 +1,10 @@
-# Contributing to SkogAI
+# Contributing to skogai
 
 Thanks for your interest in contributing. Here's how to get started.
 
 ## Getting Help
 
-Mention `@claude` in any issue or PR comment — Claude will read the context and assist. This works across all SkogAI repositories.
+Mention `@claude` in any issue or PR comment — Claude will read the context and assist. This works across all skogai repositories.
 
 ## Reporting Bugs
 
@@ -27,7 +27,7 @@ Open an issue using the **Feature Request** template. Describe the problem you'r
 
 ## Workflow Templates and Reusable Workflows
 
-Changes to `workflow-templates/` or `workflows/` affect all SkogAI repositories that use them. Test carefully and document breaking changes clearly.
+Changes to `workflow-templates/` or `workflows/` affect all skogai repositories that use them. Test carefully and document breaking changes clearly.
 
 ## Code Style
 

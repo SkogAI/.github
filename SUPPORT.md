@@ -2,7 +2,7 @@
 
 ## Getting Help
 
-**In any SkogAI repository:** mention `@claude` in an issue or PR comment. Claude will read the context and respond directly.
+**In any skogai repository:** mention `@claude` in an issue or PR comment. Claude will read the context and respond directly.
 
 **For workflow setup issues:** see [INSTALL.md](INSTALL.md) in this repository.
 

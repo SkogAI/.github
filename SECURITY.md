@@ -15,7 +15,7 @@ We will acknowledge receipt within 48 hours and aim to resolve confirmed vulnera
 
 ## Scope
 
-This policy covers all repositories in the SkogAI organization, with particular attention to:
+This policy covers all repositories in the skogai organization, with particular attention to:
 
 - GitHub Actions workflows and reusable workflows
 - Scripts that handle secrets or credentials (`scripts/`)

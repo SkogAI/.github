@@ -1,13 +1,13 @@
 # Installing Claude Code Workflows
 
-Quick guide for adding Claude Code automation to SkogAI repositories.
+Quick guide for adding Claude Code automation to skogai repositories.
 
 ## Prerequisites
 
 1. **Organization secret configured:**
 
    ```bash
-   gh secret list --org SkogAI | grep CLAUDE_CODE_OAUTH_TOKEN
+   gh secret list --org skogai | grep CLAUDE_CODE_OAUTH_TOKEN
    ```
 
    If not set, run `./scripts/setup-claude-secrets.sh`
@@ -31,7 +31,7 @@ mkdir -p .github/workflows
 
 # Copy the template
 curl -o .github/workflows/claude.yml \
-  https://raw.githubusercontent.com/SkogAI/.github/master/workflow-templates/claude-on-mention.yml
+  https://raw.githubusercontent.com/skogai/.github/master/workflow-templates/claude-on-mention.yml
 
 # Commit and push
 git add .github/workflows/claude.yml
@@ -50,13 +50,13 @@ mkdir -p .github/workflows
 
 # Copy all templates
 curl -o .github/workflows/claude.yml \
-  https://raw.githubusercontent.com/SkogAI/.github/master/workflow-templates/claude-on-mention.yml
+  https://raw.githubusercontent.com/skogai/.github/master/workflow-templates/claude-on-mention.yml
 
 curl -o .github/workflows/claude-pr-review.yml \
-  https://raw.githubusercontent.com/SkogAI/.github/master/workflow-templates/claude-pr-review.yml
+  https://raw.githubusercontent.com/skogai/.github/master/workflow-templates/claude-pr-review.yml
 
 curl -o .github/workflows/claude-manual.yml \
-  https://raw.githubusercontent.com/SkogAI/.github/master/workflow-templates/claude-manual.yml
+  https://raw.githubusercontent.com/skogai/.github/master/workflow-templates/claude-manual.yml
 
 # Commit and push
 git add .github/workflows/claude*.yml
@@ -70,10 +70,10 @@ Use the bulk installer script:
 
 ```bash
 # Clone this repo if you haven't
-git clone git@github.com:SkogAI/.github.git
+git clone git@github.com:skogai/.github.git
 cd .github
 
-# See all SkogAI repos and their Claude workflow status
+# See all skogai repos and their Claude workflow status
 ./scripts/bulk-install.sh --list
 
 # Install @claude mention workflow to all repos
@@ -94,7 +94,7 @@ cd .github
 1. Go to your repository on GitHub
 1. Click **Actions** tab
 1. Click **New workflow**
-1. Look for **SkogAI** section (may take a few minutes after templates are pushed)
+1. Look for **skogai** section (may take a few minutes after templates are pushed)
 1. Choose a Claude Code template
 1. Commit the workflow file
 
@@ -163,7 +163,7 @@ See [Claude Code CLI Reference](https://docs.claude.com/en/docs/claude-code/cli-
 ### Workflow doesn't trigger
 
 1. Check workflow syntax: `gh workflow list`
-1. Verify secret exists: `gh secret list --org SkogAI | grep CLAUDE`
+1. Verify secret exists: `gh secret list --org skogai | grep CLAUDE`
 1. Check workflow file has correct permissions (see templates)
 
 ### Claude doesn't respond
@@ -187,12 +187,12 @@ permissions:
 
 ## Updating Workflows
 
-When SkogAI/.github templates are updated, re-run the install:
+When skogai/.github templates are updated, re-run the install:
 
 ```bash
 # Manual update
 curl -o .github/workflows/claude.yml \
-  https://raw.githubusercontent.com/SkogAI/.github/master/workflow-templates/claude-on-mention.yml
+  https://raw.githubusercontent.com/skogai/.github/master/workflow-templates/claude-on-mention.yml
 
 # Or use bulk installer
 ./scripts/bulk-install.sh --template mention --repos "your-repo" --force

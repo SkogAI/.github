@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Bulk installer for Claude Code workflows across SkogAI repositories
+# Bulk installer for Claude Code workflows across skogai repositories
 #
 # Usage:
 #   ./bulk-install.sh --list                                    # List all repos and status
@@ -19,7 +19,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-ORG="SkogAI"
+ORG="skogai"
 TEMPLATE_DIR="workflow-templates"
 DRY_RUN=false
 FORCE=false
@@ -38,12 +38,12 @@ usage() {
     cat <<EOF
 Usage: $0 [OPTIONS]
 
-Bulk install Claude Code workflows to SkogAI repositories.
+Bulk install Claude Code workflows to skogai repositories.
 
 OPTIONS:
     --list                  List all repos and their Claude workflow status
     --template TEMPLATE     Which template to install: mention, pr-review, manual, all
-    --all                   Install to all SkogAI repositories
+    --all                   Install to all skogai repositories
     --repos "repo1,repo2"   Install to specific repositories (comma-separated)
     --dry-run               Preview changes without committing
     --force                 Overwrite existing workflow files
@@ -103,7 +103,7 @@ check_prerequisites() {
 }
 
 list_repos() {
-    log_info "Fetching SkogAI repositories..."
+    log_info "Fetching skogai repositories..."
     echo ""
 
     # Get all repos
@@ -186,7 +186,7 @@ install_workflow() {
     git add ".github/workflows/$template_dst"
     git commit -m "feat: Add Claude Code workflow ($template_dst)
 
-Installed from SkogAI/.github/workflow-templates/$template_src
+Installed from skogai/.github/workflow-templates/$template_src
 Uses anthropics/claude-code-action@v1"
 
     if git push; then
@@ -272,7 +272,7 @@ fi
 check_prerequisites
 
 if [ "$ALL_REPOS" = true ]; then
-    log_info "Fetching all SkogAI repositories..."
+    log_info "Fetching all skogai repositories..."
     REPOS=$(gh repo list "$ORG" --json name --limit 100 -q '.[].name' | tr '\n' ',')
 fi
 

@@ -1,10 +1,10 @@
-# SkogAI/.github
+# skogai/.github
 
 **Context for LLMs:** This is a special GitHub repository. Repositories named `.github` at the organization level provide default configurations, templates, and reusable components that apply across all repositories in the organization.
 
 ## What This Repository Does
 
-This repository serves as the centralized configuration hub for the SkogAI GitHub organization. Files placed here become defaults or shared resources for all organization repositories.
+This repository serves as the centralized configuration hub for the skogai GitHub organization. Files placed here become defaults or shared resources for all organization repositories.
 
 ## Use Cases for .github Repositories
 
@@ -17,7 +17,7 @@ Create workflows that other repositories can call using:
 ```yaml
 jobs:
   call-shared-workflow:
-    uses: SkogAI/.github/.github/workflows/workflow-name.yml@master
+    uses: skogai/.github/.github/workflows/workflow-name.yml@master
 ```
 
 **When to use:** Common CI/CD patterns, deployment pipelines, testing frameworks that multiple repos need.
@@ -28,15 +28,15 @@ jobs:
 
 Starter workflows that appear in the "Actions" tab when users create new workflows in any org repo.
 
-**When to use:** Standardized templates you want developers to discover and use (e.g., "SkogAI Python App", "SkogAI Node.js Deploy").
+**When to use:** Standardized templates you want developers to discover and use (e.g., "skogai Python App", "skogai Node.js Deploy").
 
 ### 3. Organization Profile
 
 **Location:** `profile/README.md`
 
-Markdown content displayed on `github.com/SkogAI` (the organization's main page).
+Markdown content displayed on `github.com/skogai` (the organization's main page).
 
-**When to use:** Public-facing description of what SkogAI is, projects, mission, how to contribute.
+**When to use:** Public-facing description of what skogai is, projects, mission, how to contribute.
 
 ### 4. Default Community Health Files
 
@@ -70,7 +70,7 @@ See **[INSTALL.md](INSTALL.md)** for detailed installation instructions.
 ```bash
 # Single repo - manual
 curl -o .github/workflows/claude.yml \
-  https://raw.githubusercontent.com/SkogAI/.github/master/workflow-templates/claude-on-mention.yml
+  https://raw.githubusercontent.com/skogai/.github/master/workflow-templates/claude-on-mention.yml
 
 # Multiple repos - automated
 ./scripts/bulk-install.sh --template mention --all
@@ -84,7 +84,7 @@ curl -o .github/workflows/claude.yml \
 
    - Go to your repository's "Actions" tab
    - Click "New workflow"
-   - Look for "Claude Code" templates in the SkogAI section
+   - Look for "Claude Code" templates in the skogai section
    - Choose:
      - **Claude Code - @claude Mentions** - Trigger by mentioning `@claude` anywhere
      - **Claude Code - Auto PR Review** - Automatically review PRs when opened/updated
@@ -123,14 +123,14 @@ jobs:
 - **claude-pr-review.yml** - Automatic code review on PR open/update
 - **claude-manual.yml** - Manual workflow dispatch with custom prompts
 
-### SkogAI-Specific Features
+### skogai-Specific Features
 
 All templates are pre-configured with:
 
 - ✅ Correct permissions for Claude to read/write
 - ✅ Access to CI results (`actions: read`)
 - ✅ `CLAUDE_CODE_OAUTH_TOKEN` secret reference
-- ✅ Sensible defaults for SkogAI workflows
+- ✅ Sensible defaults for skogai workflows
 
 ### Official Documentation
 
@@ -140,7 +140,7 @@ All templates are pre-configured with:
 
 ## For AI Agents: How to Use This Repository
 
-When working in a SkogAI repository, you can leverage these Claude Code workflows:
+When working in a skogai repository, you can leverage these Claude Code workflows:
 
 ### Adding Claude Automation to a Repository
 
@@ -153,8 +153,8 @@ When working in a SkogAI repository, you can leverage these Claude Code workflow
 1. **Copy a template from this repo:**
 
    ```bash
-   # From any SkogAI repo
-   cp /path/to/SkogAI/.github/workflow-templates/claude-on-mention.yml .github/workflows/claude.yml
+   # From any skogai repo
+   cp /path/to/skogai/.github/workflow-templates/claude-on-mention.yml .github/workflows/claude.yml
    ```
 
 1. **Or create from scratch using the official action:** Create `.github/workflows/claude.yml`:
@@ -185,7 +185,7 @@ When working in a SkogAI repository, you can leverage these Claude Code workflow
 1. **Verify the secret is available:**
 
    - The `CLAUDE_CODE_OAUTH_TOKEN` is set at organization level
-   - All SkogAI repos automatically have access to it
+   - All skogai repos automatically have access to it
    - No per-repo configuration needed
 
 ### When to Recommend Claude Workflows
