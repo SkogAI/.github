@@ -17,7 +17,7 @@ jobs:
         uses: pechorin/sync-repo-docs-to-notion@main
         env:
           NOTION_TOKEN: ${{ secrets.SKOGAI_NOTION_API_KEY }}
-          NOTION_ROOT_PAGE_ID: https://www.notion.so/378d9ad9db9d803ca8ecea2e3dc60b2c
+          NOTION_ROOT_PAGE_ID: 378d9ad9db9d803ca8ecea2e3dc60b2c
           FOLDER: ${{ github.workspace }}
           RELATIVE_URLS_ROOT: ${{ github.server_url }}/${{ github.repository }}
           IGNORE_CREATE_ERRORS: 1
