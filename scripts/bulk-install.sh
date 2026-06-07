@@ -32,6 +32,7 @@ declare -A TEMPLATES=(
     [mention]="claude-on-mention.yml:claude.yml"
     [pr-review]="claude-pr-review.yml:claude-pr-review.yml"
     [manual]="claude-manual.yml:claude-manual.yml"
+    [notion-sync]="notion-sync.yml:notion-sync.yml"
 )
 
 usage() {
